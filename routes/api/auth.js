@@ -36,24 +36,39 @@ router.post('/add_key', (req, res) => {
                     revocationCertificate = key.revocationCertificate; // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
                     newUser.public_key = pubkey;
                     console.log("key added successfully");
-                })
-                    .catch((err) => console.log(err));;
-                //Encrypt password using bcrypt
-                bcrypt.genSalt(10, function (err, salt) {
-                    bcrypt.hash(newUser.password, salt, function (err, hash) {
-                        if (err) throw err;
-                        newUser.password = hash;
-                        //write your key generator function here (name,email,hash)
+                }).then(function () {
+                    bcrypt.genSalt(10, function (err, salt) {
+                        console.log('public key ->>>', newUser);
+                        bcrypt.hash(newUser.password, salt, function (err, hash) {
+                            if (err) throw err;
+                            newUser.password = hash;
+                            //write your key generator function here (name,email,hash)
 
-                        newUser
-                            .save()
-                            .then(user => console.log("User added to DB successfully"))
-                            .catch(err => console.log(err));
+                            newUser
+                                .save()
+                                .then(user => console.log("User added to DB successfully"))
+                                .catch(err => console.log('main2', err));
+                        });
                     });
-                });
+                })
+                    .catch((err) => console.log('main', err));;
+                //Encrypt password using bcrypt
+                // bcrypt.genSalt(10, function (err, salt) {
+                //     console.log('public key ->>>', newUser);
+                //     bcrypt.hash(newUser.password, salt, function (err, hash) {
+                //         if (err) throw err;
+                //         newUser.password = hash;
+                //         //write your key generator function here (name,email,hash)
+
+                //         newUser
+                //             .save()
+                //             .then(user => console.log("User added to DB successfully"))
+                //             .catch(err => console.log('main2', err));
+                //     });
+                // });
             }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log('main3', err));
     res.redirect('/api/home/key-management');
 });
 
