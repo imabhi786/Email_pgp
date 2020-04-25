@@ -64,9 +64,9 @@ app.get('/', (req, res) => {
         res.redirect(url);
     } else {
         const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
-        console.log("gmail stuff : "+ JSON.stringify(gmail.users.getProfile({userId:'me'},(err,res)=>{
+        gmail.users.getProfile({userId:'me'},(err,res)=>{
             console.log("gstuff : "+JSON.stringify(res.data.emailAddress));
-        })));
+        });
         gmail.users.labels.list({
             userId: 'me',
         }, (err, res) => {
@@ -74,11 +74,11 @@ app.get('/', (req, res) => {
             const labels = res.data.labels;
             //console.log('Pre Labels:' + JSON.stringify(labels));
             if (labels.length) {
-                
+                /*
                 console.log('Labels:');
                 labels.forEach((label) => {
                     console.log(`- ${label.name}`);
-                });
+                });*/
             } else {
                 console.log('No labels found.');
             }
