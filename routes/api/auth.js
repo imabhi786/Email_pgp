@@ -10,7 +10,7 @@ const User = require('../../models/user');
 openpgp.initWorker({ path: 'openpgp.worker.js' })
 
 router.post('/add_key', (req, res) => {
-    var global_key;
+    var global_key,privkey, pubkey, revocationCertificate, options;
     User
         .findOne({ email: req.body.email })
         .then(user => {
@@ -23,40 +23,37 @@ router.post('/add_key', (req, res) => {
                     email: req.body.email,
                     algorithm: req.body.algorithm,
                     key_size: req.body.size,
-                    password: req.body.password
                 });
                 bcrypt.genSalt(10, function (err, salt) {
                     console.log('public key ->>>', newUser);
-                    bcrypt.hash(newUser.password, salt, function (err, hash) {
+                    bcrypt.hash(req.body.password, salt, function (err, hash) {
                         if (err) throw err;
                         newUser.password = hash;
-                        
+                        options = {
+                            userIds: [{ name: req.body.name, email: req.body.email }],
+                            numBits: parseInt(req.body.size),
+                            passphrase: newUser.password
+                        };
+                        openpgp.generateKey(options).then(function (key) {
+                            privkey = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
+                            pubkey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+                            revocationCertificate = key.revocationCertificate; // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+                            newUser.public_key = pubkey;
+                            newUser.private_key = privkey;
+                            global_key = key;
+                            res.render("key-generate",{
+                                key: global_key
+                            })
+                            console.log("key added successfully");
+                        }).then(function () {
+                            newUser
+                            .save()
+                            .then(user => console.log("User added to DB successfully"))
+                            .catch(err => console.log('main2', err));
+                        })
+                        .catch((err) => console.log('main', err));;
                     });
                 });
-                const options = {
-                    userIds: [{ name: req.body.name, email: req.body.email }],
-                    numBits: parseInt(req.body.size),
-                    passphrase: newUser.password
-                };
-                var privkey, pubkey, revocationCertificate;
-                openpgp.generateKey(options).then(function (key) {
-                    privkey = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
-                    pubkey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
-                    revocationCertificate = key.revocationCertificate; // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
-                    newUser.public_key = pubkey;
-                    newUser.private_key = privkey;
-                    global_key = key;
-                    res.render("key-generate",{
-                        key: global_key
-                    })
-                    console.log("key added successfully");
-                }).then(function () {
-                    newUser
-                    .save()
-                    .then(user => console.log("User added to DB successfully"))
-                    .catch(err => console.log('main2', err));
-                })
-                .catch((err) => console.log('main', err));;
             }
         })
         .catch((err) => console.log('main3', err));
