@@ -23,15 +23,16 @@
     <h1 class="display-4">Encrypt message</h1>
     <hr>
     <form action="" method="">
+        
+        <button type="submit" class="btn btn-primary">Lookup</button>
+    </form>
+    <hr>
+    <form action="/api/auth/encrypt-message" method="POST">
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
                 placeholder="Enter recepient's email address" required>
         </div>
-        <button type="submit" class="btn btn-primary">Lookup</button>
-    </form>
-    <hr>
-    <form action="/api/auth/encrypt-message" method="POST">
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Your Message</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" name="message" rows="3"></textarea>
