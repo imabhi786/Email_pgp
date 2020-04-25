@@ -1,0 +1,10 @@
+body {
+    /* background-color:red; */
+}
+
+.flex{
+    display: flex;
+}
+.box{
+    margin: 10px 10px
+}
