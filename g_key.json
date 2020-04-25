@@ -1,0 +1,15 @@
+{
+    "client":
+    {
+        "id":"13330268379-2pmtdlkf0pfbaieoad0csvftj11tbvbg.apps.googleusercontent.com",
+        "secret":"-ryNeatZrElKL3oWlpelS1lg",
+        "redirect":"http://localhost:3000/auth/google/callback"
+    },
+
+    "credentials": {
+        "access_token": "https://oauth2.googleapis.com/token",
+        "token_type": "Bearer",
+        "expires_in": 3600,
+        "refresh_token": "https://oauth2.googleapis.com/token"
+    }
+}
