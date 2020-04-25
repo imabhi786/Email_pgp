@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">PGP Express</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/key-management">Key Management <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="encrypt">Encrypt</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="decrypt">Decrypt</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="main">
+    <h1 class="display-4">Generate key pair</h1>
+    <form action="" method="">
+        <div class="form-group">
+            <label for="exampleInputName1">Name</label>
+            <input type="text" class="form-control" id="exampleInputName1" name="name" aria-describedby="nameHelp"
+                placeholder="Enter name" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
+                placeholder="Enter email" required>
+        </div>
+        <div class="form-group">
+            <label for="algorithm">Algorithm</label>
+            <select class="form-control" id="algorithm" name="algorithm">
+                <option>RSA</option>
+                <option>Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="key-size">Key Size</label>
+            <select class="form-control" id="key-size" name="size">
+                <option>2048</option>
+                <option>4096</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password"
+                placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Generate</button>
+    </form>
+</div>

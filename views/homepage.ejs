@@ -7,8 +7,8 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/key-management">Key Management <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="nav-link" href="key-management">Key Management</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="encrypt">Encrypt</a>
@@ -20,16 +20,9 @@
     </div>
 </nav>
 <div class="main">
-    <% if(value.length) { %>
-    <% for(var i=0;i<value.length;i++) { %>
-    <div class="flex">
-        <h2 class="box">Email : <%= value[i].email%> </h2>
-        <h2 class="box">Public_key : <%= value[i].public_key%> </h2>
-    </div>
+    <h1 class="display-4">Home page</h1>
     <hr>
-    <br>
-    <% } %>
-    <% }else{ %>
-    <h2> No one has added any public key</h2>
-    <% } %>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae qui, sed natus iste et debitis quia
+        consequatur laboriosam, possimus minus labore aspernatur quaerat praesentium rerum. Ab qui praesentium
+        aperiam optio?</p>
 </div>
