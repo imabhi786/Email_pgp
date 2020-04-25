@@ -146,4 +146,45 @@ router.post('/decrypt-message', (req, res) => {
 });
 
 
+
+router.post('/revoke_key', (req,res) => {
+
+    passwordEntered = req.body.password;
+    emailEntered    = req.body.email;
+
+    console.log(passwordEntered);
+    User
+        .findOne({email : emailEntered})
+        .then( user => {
+          
+            if(user) {
+                const dBpassword = user.password;
+
+                bcrypt.compare(passwordEntered, dBpassword)
+                            .then((isCorrect) => {
+                                if(isCorrect){
+                                   user.public_key = 'REVOKED';
+                                    user
+                                    .save()
+                                    .then(user => console.log("Revoked successfully"))
+                                    .catch(err => console.log('NOOOOOO ',err));
+                                    res.render('key-publish',{
+                                        public_key : user.public_key
+                                    })
+                                }
+                                else{
+                                    res.status(400).json({message:'Incorrect password'});
+                                }
+                            })
+                            .catch( err => console.log(err));    
+                }
+                else{
+                    return res.json({message : 'Email not Registered'});
+                }
+        })
+        .catch(err => console.log(err));
+
+     });
+
+
 module.exports = router;

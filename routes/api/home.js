@@ -54,4 +54,17 @@ router.get('/decrypt', (req, res) => {
         msg: 1
     });
 });
+
+router.get('/key-revoke',(req,res) => {
+    User
+        .find()
+        .then(user => {
+            res.render('key-revoke', {
+                value: user
+            });
+        })
+        .catch((err) => console.log(err));
+})
+
+
 module.exports = router;
