@@ -48,25 +48,6 @@ app.get('/homepage', (req, res) => {
     res.render('homepage');
 });
 
-app.get('/key-management', (req, res) => {
-    res.render('key-management');
-});
-
-app.get('/key-generate', (req, res) => {
-    res.render('key-generate');
-});
-
-app.get('/key-publish', (req, res) => {
-    res.render('key-publish');
-});
-
-app.get('/encrypt', (req, res) => {
-    res.render('encrypt');
-});
-
-app.get('/decrypt', (req, res) => {
-    res.render('decrypt');
-});
 
 app.get('/login-page', (req, res)=>{
     res.render('login-page')

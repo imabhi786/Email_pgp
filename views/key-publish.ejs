@@ -8,31 +8,32 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/key-management">Key Management <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/api/home/key-management">Key Management <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="encrypt">Encrypt</a>
+                <a class="nav-link" href="/api/home/encrypt">Encrypt</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="decrypt">Decrypt</a>
+                <a class="nav-link" href="/api/home/decrypt">Decrypt</a>
             </li>
         </ul>
     </div>
 </nav>
 <div class="main">
-    <h1 class="display-4">Publish key to key server</h1>
-    <p>This is your Add_key page</p>
-    <form action="/api/auth/add_key" method="POST">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
-                placeholder="Enter email" required>
+    <h1 class="display-4">Display key</h1>
+    <% if(public_key.length) { %>
+        <div class="form-group"></div>
+            <label for="public_key">Public Key</label>
+            <p class = "back"><%= public_key %></p>
         </div>
-        <div class="form-group">
-            <label for="exampleInputKey1">Enter public key</label>
-            <input type="text" class="form-control" id="exampleInputKey1" name="public_key" aria-describedby="keyHelp"
-                placeholder="Public key" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Publish</button>
-    </form>
+    <% } else {%>
+        <form action="/api/auth/get_key" method="POST">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
+                    placeholder="Enter email" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Display Public Key</button>
+        </form>
+    <% } %>
 </div>
