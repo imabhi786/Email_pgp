@@ -31,11 +31,18 @@
         <button type="submit" class="btn btn-primary">Lookup</button>
     </form>
     <hr>
-    <form action="" method="">
+    <form action="/api/auth/encrypt-message" method="POST">
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Your Message</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            <textarea class="form-control" id="exampleFormControlTextarea1" name="message" rows="3"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Encrypt</button>
     </form>
+    <hr>
+    <% if (msg!=1) { %>
+    <div class="form-group">
+        <label for="revoc-sign">Encrypted Message</label>
+        <textarea class="form-control" id="revoc-sign" rows="15" disabled><%= msg %></textarea>
+    </div>
+    <% } %>
 </div>
