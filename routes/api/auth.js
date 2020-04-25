@@ -29,13 +29,17 @@ router.post('/add_key',(req,res)=>{
                 numBits: parseInt(req.body.size),        
                 passphrase: req.body.password         
             };
-            var privkey, pubkey, revocationCertificate;
+            var privkey, pubkey, revocationCertificate, global_key;
             openpgp.generateKey(options).then(function (key) {
+                global_key = key;
                 privkey = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
                 pubkey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
                 revocationCertificate = key.revocationCertificate; // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
                 newUser.public_key = pubkey;
                 console.log("key added successfully");
+                res.render("key-generate",{
+                    key: global_key
+                });
             })
             .catch((err) => console.log(err));;
             //Encrypt password using bcrypt
@@ -49,12 +53,13 @@ router.post('/add_key',(req,res)=>{
                          .save()
                          .then(user => console.log("User added to DB successfully"))
                          .catch(err => console.log(err));
+                    
                 }); 
             });
         }
     })
     .catch((err)=> console.log(err));
-    res.redirect('/api/home/key-management');
+    // res.redirect('/api/home/key-management');
 });
 
 

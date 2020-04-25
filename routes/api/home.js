@@ -32,7 +32,9 @@ router.get('/key-management',(req,res)=>{
 
 
 router.get('/key-generate',(req,res) => {
-    res.render('key-generate');
+    res.render('key-generate',{
+        key: []
+    });
 })
 
 router.get('/key-publish', (req, res) => {

@@ -20,6 +20,7 @@
     </div>
 </nav>
 <div class="main">
+    <% if(key.length == 0) { %>
     <h1 class="display-4">Generate key pair</h1>
     <form action="/api/auth/add_key" method="POST">
         <div class="form-group">
@@ -53,4 +54,8 @@
         </div>
         <button type="submit" class="btn btn-primary">Generate</button>
     </form>
+    <% } else { %>
+    <h1 class="display-4">Key pair generated successfully</h1>
+    <button class="btn btn-primary">Download Private Key</button>
+    <% } %>
 </div>
