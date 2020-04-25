@@ -17,6 +17,7 @@
     "express-ejs-layouts": "^2.5.0",
     "mongoose": "^5.9.10",
     "morgan": "^1.10.0",
+    "openpgp": "^4.10.4",
     "path": "^0.12.7"
   }
 }

@@ -11,6 +11,10 @@ const expressLayouts = require('express-ejs-layouts');
 
 const port = process.env.PORT || 3000;
 
+const openpgp = require('openpgp'); // use as CommonJS, AMD, ES6 module or via window.openpgp
+
+openpgp.initWorker({ path: 'openpgp.worker.js' })  // set the relative web worker path
+
 //Middleware for bodyparser
 app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/public'));
@@ -41,7 +45,9 @@ app.get('/key-management', (req, res) => {
 });
 
 app.get('/key-generate', (req, res) => {
-    res.render('key-generate');
+    res.render('key-generate', {
+        key: 1
+    });
 });
 
 app.get('/key-publish', (req, res) => {
@@ -55,6 +61,24 @@ app.get('/encrypt', (req, res) => {
 app.get('/decrypt', (req, res) => {
     res.render('decrypt');
 });
+
+app.post('/generate', (req, res) => {
+    const options = {
+        userIds: [{ name: req.body.name, email: req.body.email }], // multiple user IDs
+        numBits: parseInt(req.body.size),                                            // RSA key size
+        passphrase: req.body.password         // protects the private key
+    };
+    openpgp.generateKey(options).then(function (key) {
+        var privkey = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
+        var pubkey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+        var revocationCertificate = key.revocationCertificate; // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+        console.log(key);
+        res.render('key-generate', {
+            key: key
+        });
+    }).catch((err) => console.log(err));;
+
+})
 
 //All routes
 const auth = require('./routes/api/auth');
