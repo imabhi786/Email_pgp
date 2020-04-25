@@ -10,10 +10,9 @@ var logger = require('morgan');
 var dotenv = require('dotenv').config();
 const expressLayouts = require('express-ejs-layouts');
 const { google } = require('googleapis');
-//const OAuth2Data = require(__dirname+'/google_key.json');
+const common = require('./common');
 let rawdata = fs.readFileSync('g_key.json');
 const OAuth2Data = JSON.parse(rawdata);
-console.log(OAuth2Data);
 
 const CLIENT_ID = OAuth2Data.client.id;
 const CLIENT_SECRET = OAuth2Data.client.secret;
@@ -60,28 +59,25 @@ app.get('/', (req, res) => {
             access_type: 'offline',
             scope: 'https://www.googleapis.com/auth/gmail.readonly'
         });
-        console.log(url)
+        //console.log(url)
         res.redirect(url);
     } else {
-        const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
-        gmail.users.getProfile({userId:'me'},(err,res)=>{
-            console.log("gstuff : "+JSON.stringify(res.data.emailAddress));
-        });
+        
         gmail.users.labels.list({
             userId: 'me',
         }, (err, res) => {
-            if (err) return console.log('The API returned an error: ' + err);
-            const labels = res.data.labels;
-            //console.log('Pre Labels:' + JSON.stringify(labels));
-            if (labels.length) {
-                /*
-                console.log('Labels:');
-                labels.forEach((label) => {
-                    console.log(`- ${label.name}`);
-                });*/
-            } else {
-                console.log('No labels found.');
-            }
+             if (err) return console.log('The API returned an error: ' + err);
+            // const labels = res.data.labels;
+            // //console.log('Pre Labels:' + JSON.stringify(labels));
+            // if (labels.length) {
+            //     /*
+            //     console.log('Labels:');
+            //     labels.forEach((label) => {
+            //         console.log(`- ${label.name}`);
+            //     });*/
+            // } else {
+            //     console.log('No labels found.');
+            // }
         });
         res.send('logged in')
     }
@@ -98,8 +94,12 @@ app.get('/auth/google/callback', function (req, res) {
             } else {
                 console.log('Successfully authenticated');
                 oAuth2Client.setCredentials(tokens);
-                console.log("Oauth2 : "+JSON.stringify(oAuth2Client));
                 authed = true;
+                const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
+                gmail.users.getProfile({userId:'me'},(err,res)=>{
+                    common.userEmail = res.data.emailAddress;
+                    console.log("gstuff : "+JSON.stringify(res.data.emailAddress));
+                });
                 res.redirect('/homepage')
             }
         });
