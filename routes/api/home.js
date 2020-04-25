@@ -50,6 +50,8 @@ router.get('/encrypt', (req, res) => {
 });
 
 router.get('/decrypt', (req, res) => {
-    res.render('decrypt');
+    res.render('decrypt', {
+        msg: 1
+    });
 });
 module.exports = router;
