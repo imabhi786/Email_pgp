@@ -56,17 +56,56 @@
     <% if (key!=1) { %>
     <hr>
     <div class="form-group">
-        <label for="exampleFormControlTextarea1">Public Key</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"><%= key.publicKeyArmored %></textarea>
+        <label for="public-key">Public Key</label>
+        <textarea class="form-control" id="public-key" rows="3" disabled><%= key.publicKeyArmored %></textarea>
     </div>
+    <hr>
     <div class="form-group">
-        <label for="exampleFormControlTextarea1">Private Key</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"><%= key.privateKeyArmored %></textarea>
+        <label for="private-key">Private Key</label>
+        <textarea class="form-control" id="private-key" rows="3" disabled><%= key.privateKeyArmored %></textarea>
     </div>
+    <hr>
     <div class="form-group">
-        <label for="exampleFormControlTextarea1">Revocation Signature</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1"
-            rows="3"><%= key.revocationCertificate %></textarea>
+        <label for="revoc-sign">Revocation Signature</label>
+        <textarea class="form-control" id="revoc-sign" rows="3" disabled><%= key.revocationCertificate %></textarea>
     </div>
+    <button type="button" value="save" id="save">Download</button>
+
     <% } %>
+    <script>
+        function saveTextAsFile(id, name) {
+            var textToWrite = document.getElementById(id).value;
+            textToWrite = textToWrite.replace(/\n/g, "\r\n");
+            var textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
+            var fileNameToSaveAs = name;
+
+            var downloadLink = document.createElement("a");
+            downloadLink.download = fileNameToSaveAs;
+            downloadLink.innerHTML = "Download File";
+            if (window.webkitURL != null) {
+                // Chrome allows the link to be clicked without actually adding it to the DOM.
+                downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+            } else {
+                // Firefox requires the link to be added to the DOM before it can be clicked.
+                downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+                downloadLink.onclick = destroyClickedElement;
+                downloadLink.style.display = "none";
+                document.body.appendChild(downloadLink);
+            }
+
+            downloadLink.click();
+        }
+        function saveFiles() {
+            saveTextAsFile('public-key', 'public-key.txt');
+            saveTextAsFile('private-key', 'private-key.txt');
+            saveTextAsFile('revoc-sign', 'revocation-signature.txt');
+        }
+        var button = document.getElementById('save');
+        button.addEventListener('click', saveFiles);
+
+        function destroyClickedElement(event) {
+            // remove the link from the DOM
+            document.body.removeChild(event.target);
+        }
+    </script>
 </div>
