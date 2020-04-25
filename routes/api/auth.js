@@ -10,6 +10,7 @@ const User = require('../../models/user');
 openpgp.initWorker({ path: 'openpgp.worker.js' })
 
 router.post('/add_key', (req, res) => {
+    var global_key;
     User
         .findOne({ email: req.body.email })
         .then(user => {
@@ -35,6 +36,10 @@ router.post('/add_key', (req, res) => {
                     pubkey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
                     revocationCertificate = key.revocationCertificate; // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
                     newUser.public_key = pubkey;
+                    global_key = key;
+                    res.render("key-generate",{
+                        key: global_key
+                    })
                     console.log("key added successfully");
                 }).then(function () {
                     bcrypt.genSalt(10, function (err, salt) {
@@ -42,8 +47,6 @@ router.post('/add_key', (req, res) => {
                         bcrypt.hash(newUser.password, salt, function (err, hash) {
                             if (err) throw err;
                             newUser.password = hash;
-                            //write your key generator function here (name,email,hash)
-
                             newUser
                                 .save()
                                 .then(user => console.log("User added to DB successfully"))
@@ -51,25 +54,11 @@ router.post('/add_key', (req, res) => {
                         });
                     });
                 })
-                    .catch((err) => console.log('main', err));;
-                //Encrypt password using bcrypt
-                // bcrypt.genSalt(10, function (err, salt) {
-                //     console.log('public key ->>>', newUser);
-                //     bcrypt.hash(newUser.password, salt, function (err, hash) {
-                //         if (err) throw err;
-                //         newUser.password = hash;
-                //         //write your key generator function here (name,email,hash)
-
-                //         newUser
-                //             .save()
-                //             .then(user => console.log("User added to DB successfully"))
-                //             .catch(err => console.log('main2', err));
-                //     });
-                // });
+                .catch((err) => console.log('main', err));;
             }
         })
         .catch((err) => console.log('main3', err));
-    res.redirect('/api/home/key-management');
+        // res.redirect('/api/home/key-management');
 });
 
 
