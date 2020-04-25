@@ -1,0 +1,17 @@
+.main {
+    width: 80%;
+    padding: 30px;
+    padding-top: 15px;
+    margin: 0 auto;
+    margin-top: 30px;
+    border-radius: 5px;
+    background-color: #eee;
+}
+
+.flex{
+    display: flex;
+}
+
+.box{
+    margin: 10px 10px
+}

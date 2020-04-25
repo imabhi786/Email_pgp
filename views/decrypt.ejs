@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">PGP Express</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="key-management">Key Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="encrypt">Encrypt</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="decrypt">Decrypt</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="main">
+    <h1 class="display-4">Decrypt message</h1>
+    <hr>
+    <form action="" method="">
+        <div class="form-group">
+            <label for="exampleInputKey1">Enter private key</label>
+            <input type="text" class="form-control" id="exampleInputKey1" name="private_key" aria-describedby="keyHelp"
+                placeholder="Private key" required>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Enter the message</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Decrypt</button>
+    </form>
+</div>
