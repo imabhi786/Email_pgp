@@ -67,6 +67,25 @@ router.get('/key-revoke',(req,res) => {
         .catch((err) => console.log(err));
 })
 
+
+router.get('/sign', (req, res) => {
+
+    res.render('sign', {
+        userEmail:common.userEmail,
+        key: [],
+        msg: 1
+    });
+
+});
+
+router.get('/sign_verify', (req, res) => {
+
+    res.render('sign_verify', {
+        msg: 1
+    });
+
+});
+
 router.get('/key-regenerate', (req, res) => {
     res.render('key-generate', {
         userEmail:common.userEmail,

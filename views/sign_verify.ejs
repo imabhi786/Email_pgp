@@ -8,43 +8,44 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/api/home/key-management">Key Management</a>
+                <a class="nav-link" href="/api/home/key-management">Key Management <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/home/encrypt">Encrypt</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/api/home/decrypt">Decrypt</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/home/sign">Sign</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/api/home/sign_verify">Sign Verify</a>
             </li>
         </ul>
     </div>
 </nav>
 <div class="main">
-    <h1 class="display-4">Decrypt message</h1>
-    <hr>
-    <form action="/api/auth/decrypt-message" method="POST">
+    <h1 class="display-4">Verify Sign</h1>
+    <form action="/api/auth/sign-verify" method="POST">
         <div class="form-group">
-            <label for="exampleInputKey1">Enter email</label>
-            <input type="text" class="form-control" id="exampleInputKey1" name="email" aria-describedby="emailHelp"
-                placeholder="Private key" required>
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
+                placeholder= "Sender E-mail" required>
         </div>
         <div class="form-group">
-            <label for="exampleFormControlTextarea1">Enter the encrypted message</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" name="message" rows="3"></textarea>
+            <label for="message">Signature</label>
+            <textarea class="form-control" id="signature" name="signature" rows="3"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Decrypt</button>
+        <button type="submit" class="btn btn-primary">Verify</button>
     </form>
+    
     <hr>
     <% if (msg!=1) { %>
     <div class="form-group">
-        <label for="revoc-sign">Decrypted Message</label>
-        <textarea class="form-control" id="revoc-sign" rows="15" disabled><%= msg %></textarea>
+        <label for="revoc-sign">Digital Signature</label>
+        <textarea class="form-control" id="revoc-sign" rows="2" disabled><%= msg %></textarea>
     </div>
     <% } %>
+
 </div>

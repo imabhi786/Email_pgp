@@ -7,7 +7,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/api/home/key-management">Key Management <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
@@ -16,7 +16,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="/api/home/decrypt">Decrypt</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/api/home/sign">Sign</a>
             </li>
             <li class="nav-item">
@@ -26,43 +26,31 @@
     </div>
 </nav>
 <div class="main">
-    <% if(key.length == 0) { %>
-    <h1 class="display-4">Generate key pair</h1>
-    <form action="/api/auth/add_key" method="POST">
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp"
-                placeholder="Enter name" required>
-        </div>
+    <h1 class="display-4">Sign Message</h1>
+    <form action="/api/auth/hash-sign" method="POST">
         <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
                 placeholder= "<%= userEmail %>" value= "<%= userEmail %> " required readonly>
         </div>
         <div class="form-group">
-            <label for="algorithm">Algorithm</label>
-            <select class="form-control" id="algorithm" name="algorithm">
-                <option>RSA</option>
-                <option>Other</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="key-size">Key Size</label>
-            <select class="form-control" id="key-size" name="size">
-                <option>2048</option>
-                <option>4096</option>
-            </select>
-        </div>
-        <div class="form-group">
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password"
                 placeholder="Password" required>
         </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea class="form-control" id="signMessage1" name="message" rows="3"></textarea>
+        </div>
         <button type="submit" class="btn btn-primary">Generate</button>
     </form>
-    <% } else { %>
-    <h1 class="display-4">Key pair generated and downloaded successfully</h1>
-
-    <p class="back"><%= key.privateKeyArmored %></p>
+    
+    <hr>
+    <% if (msg!=1) { %>
+    <div class="form-group">
+        <label for="revoc-sign">Digital Signature</label>
+        <textarea class="form-control" id="revoc-sign" rows="15" disabled><%= msg %></textarea>
+    </div>
     <% } %>
+
 </div>

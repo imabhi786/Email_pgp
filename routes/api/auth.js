@@ -3,6 +3,7 @@ const app = express();
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const openpgp = require('openpgp');
+const fs = require('fs');
 const key = require('../../setup/myDBurl').secret;
 
 const User = require('../../models/user');
@@ -10,7 +11,7 @@ const User = require('../../models/user');
 openpgp.initWorker({ path: 'openpgp.worker.js' })
 
 router.post('/add_key', (req, res) => {
-    var global_key,privkey, pubkey, revocationCertificate, options;
+    var global_key;
     User
         .findOne({ email: req.body.email })
         .then(user => {
@@ -68,37 +69,66 @@ router.post('/add_key', (req, res) => {
                     email: req.body.email,
                     algorithm: req.body.algorithm,
                     key_size: req.body.size,
+                    password: req.body.password
                 });
-                bcrypt.genSalt(10, function (err, salt) {
-                    console.log('public key ->>>', newUser);
-                    bcrypt.hash(req.body.password, salt, function (err, hash) {
-                        if (err) throw err;
-                        newUser.password = hash;
-                        options = {
-                            userIds: [{ name: req.body.name, email: req.body.email }],
-                            numBits: parseInt(req.body.size),
-                            passphrase: newUser.password
-                        };
-                        openpgp.generateKey(options).then(function (key) {
-                            privkey = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
-                            pubkey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
-                            revocationCertificate = key.revocationCertificate; // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
-                            newUser.public_key = pubkey;
-                            newUser.private_key = privkey;
-                            global_key = key;
-                            res.render("key-generate",{
-                                key: global_key
-                            })
-                            console.log("key added successfully");
-                        }).then(function () {
+                const options = {
+                    userIds: [{ name: req.body.name, email: req.body.email }],
+                    numBits: parseInt(req.body.size),
+                    passphrase: req.body.password
+                };
+                var privkey, pubkey, revocationCertificate;
+                openpgp.generateKey(options).then(function (key) {
+                    privkey = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
+                    pubkey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+                    revocationCertificate = key.revocationCertificate; // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
+                    newUser.public_key = pubkey;
+                    newUser.private_key = privkey; //TODO: remove from database
+                    global_key = key;
+
+                    res.render("key-generate",{
+                        key: global_key
+                    })
+                    console.log("key added successfully");
+                }).then(function () {
+                    console.log('Download start ################################')
+                    bcrypt.genSalt(10, function (err, salt) {
+                        console.log('public key ->>>', newUser);
+                        bcrypt.hash(newUser.password, salt, function (err, hash) {
+                            if (err) throw err;
+                            newUser.password = hash;
                             newUser
-                            .save()
-                            .then(user => console.log("User added to DB successfully"))
-                            .catch(err => console.log('main2', err));
-                        })
-                        .catch((err) => console.log('main', err));;
+                                .save()
+                                .then(user => console.log("User added to DB successfully"))
+                                .catch(err => console.log('main2', err));
+                        });
                     });
-                });
+
+
+                    //Start
+                    
+                    //End
+
+                }).then(function(){
+                        //downloading the private key
+                        console.log('Download start')
+                try {
+                    if (!fs.existsSync('C:\\PGPExpress_keys')) {
+                      fs.mkdirSync('C:\\PGPExpress_keys')
+                      console.log('Directory made')
+                    }
+                  } catch (err) {
+                    console.error(err)
+                  }
+                // writeFile function with filename, content and callback function
+                var name = "C:\\PGPExpress_keys\\"+req.body.email.split('.')[0]+".txt";
+                fs.writeFile(name, privkey, function (err) {
+                    if (err) throw err;
+                    console.log('File is created successfully.');
+                    });
+
+                })
+                .catch((err) => console.log('main', err));;
+
             }
         })
         .catch((err) => console.log('main3', err));
@@ -121,6 +151,113 @@ router.post('/get_key', (req, res) => {
         })
         .catch(err => console.log(err));
     // res.redirect('/api/home/key-publish');
+})
+
+router.post('/hash-sign', (req, res) => {
+    //karan
+    
+    const path = "C:\\PGPExpress_keys\\"+req.body.email.split('.')[0]+".txt";
+
+    try {
+        if (fs.existsSync(path)) {
+            //file exists
+            fs.readFile(path,function(err, data) { 
+                if (err){
+                    res.render('sign', {
+                        msg: err,
+                        userEmail:req.body.email,
+                    })
+                    throw err;
+                }
+                const privKey = data.toString('utf8');
+                console.log('Signing begins')
+                console.log(req.body.message)
+
+                const SignFunction = async () => {
+                    try{
+                    const { keys: [privateKey] } = await openpgp.key.readArmored(privKey);
+                    await privateKey.decrypt(req.body.password);
+ 
+                const { data: cleartext } = await openpgp.sign({
+                    message: openpgp.cleartext.fromText(req.body.message), // CleartextMessage or Message object
+                    privateKeys: [privateKey]                             // for signing
+                });
+
+                console.log(cleartext)
+                return {text: cleartext, mail: req.body.email}
+            }catch{
+                console.error('Incorrect Password')
+                return
+            }
+                }
+                    try{
+                    const prom = SignFunction();
+                    prom.then(function (result) {
+                        res.render('sign', {
+                            msg: result.text,
+                            userEmail:result.mail,
+                        })
+                        console.log('Signed message')
+                    
+                    }).catch(function(err){
+                    console.log(err)
+                    res.render('sign', {
+                        msg: err,
+                        userEmail:req.body.email,
+                    })
+                    });
+                    }catch{
+                        console.log('Final')
+                    }
+            });
+        }else{
+            res.render('sign', {
+                msg: 'Key does not exist in local machine',
+                userEmail:req.body.email,
+            })
+        }
+      } catch(path) {
+        res.render('sign', {
+            msg: path,
+            userEmail:req.body.email,
+        })
+      } 
+});
+
+router.post('/sign-verify', (req, res) => {
+    User
+    .findOne({email: req.body.email})
+   .then( user => {
+        const pubkey = user.public_key;
+        console.log(pubkey);
+
+        const signVerifyFunction = async () => {
+            const verified = await openpgp.verify({
+                message: await openpgp.cleartext.readArmored(req.body.signature),           // parse armored message
+                publicKeys: (await openpgp.key.readArmored(pubkey)).keys // for verification
+            });
+            const { valid } = verified.signatures[0];
+            if(valid){
+                res.render('sign_verify', {
+                        msg: 'Signature is valid\nSigned by key id ' + verified.signatures[0].keyid.toHex()
+                })
+            }
+        }
+
+        const prom = signVerifyFunction();
+        prom.catch(function (err){
+            console.error('Invalid Signature')
+            res.render('sign_verify', {
+                msg: 'signature could not be verified'
+            })
+        });
+   })
+   .catch( function (err){
+    res.render('sign_verify', {
+        msg: err
+    })
+   })
+
 })
 
 router.post('/encrypt-message', (req, res) => {
