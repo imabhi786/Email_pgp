@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">PGP Express</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/api/home/key-management">Key Management <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/home/encrypt">Encrypt</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/home/decrypt">Decrypt</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="main">
+    <h1 class="display-4">Display key</h1>
+    <% if(public_key.length) { %>
+        <div class="form-group"></div>
+            <label for="public_key">Public Key</label>
+            <p class = "back"><%= public_key %></p>
+            <br><br>
+            <h3>You can now go back and generate new keys again under Key Management.</h3>
+        </div>
+    <% } else {%>
+        <form action="/api/auth/get_key" method="POST">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
+                    placeholder="Enter email" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Display Public Key</button>
+        </form>
+    <% } %>
+</div>
