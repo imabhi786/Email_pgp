@@ -60,11 +60,19 @@ router.get('/key-revoke',(req,res) => {
         .find()
         .then(user => {
             res.render('key-revoke', {
+                userEmail:common.userEmail,
                 value: user
             });
         })
         .catch((err) => console.log(err));
 })
+
+router.get('/key-regenerate', (req, res) => {
+    res.render('key-generate', {
+        userEmail:common.userEmail,
+        key: []
+    });
+});
 
 
 module.exports = router;
