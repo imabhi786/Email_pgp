@@ -27,10 +27,6 @@ const userSchema =  new schema({
         type : String,
         required : true
     },
-    private_key : {
-        type : String,
-        required : true
-    },
     date : {
         type : Date,
         default : Date.now
