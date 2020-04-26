@@ -39,6 +39,7 @@ router.post('/add_key', (req, res) => {
                             numBits: parseInt(req.body.size),
                             passphrase: user.password
                         };
+                        var privkey;
                         openpgp.generateKey(options).then(function (key) {
                             privkey = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
                             pubkey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
@@ -55,8 +56,25 @@ router.post('/add_key', (req, res) => {
                             .save()
                             .then(user => console.log("User updated to DB successfully"))
                             .catch(err => console.log('main2', err));
-                        })
-                        .catch((err) => console.log('main', err));;
+                        }).then(function(){
+                            //downloading the private key
+                            console.log('Download start')
+                    try {
+                        if (!fs.existsSync('C:\\PGPExpress_keys')) {
+                          fs.mkdirSync('C:\\PGPExpress_keys')
+                          console.log('Directory made')
+                        }
+                      } catch (err) {
+                        console.error(err)
+                      }
+                    // writeFile function with filename, content and callback function
+                    var name = "C:\\PGPExpress_keys\\"+req.body.email.split('.')[0]+".txt";
+                    fs.writeFile(name, privkey, function (err) {
+                        if (err) throw err;
+                        console.log('File is created successfully.');
+                        });
+    
+                    }).catch((err) => console.log('main', err));;
                     });
                 });
 
