@@ -51,6 +51,7 @@ router.get('/encrypt', (req, res) => {
 
 router.get('/decrypt', (req, res) => {
     res.render('decrypt', {
+        userEmail : common.userEmail,
         msg: 1
     });
 });
