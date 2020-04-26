@@ -28,22 +28,18 @@
 <div class="main">
     <h1 class="display-4">Encrypt message</h1>
     <hr>
-    <form action="" method="">
-        
-        <button type="submit" class="btn btn-primary">Lookup</button>
-    </form>
-    <hr>
     <form action="/api/auth/encrypt-message" method="POST">
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
             <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
                 placeholder="Enter recepient's email address" required>
+            <p id = "emailValid" style="color: red"></p>
         </div>
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Your Message</label>
             <textarea class="form-control" id="exampleFormControlTextarea1" name="message" rows="3"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Encrypt</button>
+        <button type="submit" id = "submit" class="btn btn-primary" style="display: none">Encrypt</button>
     </form>
     <hr>
     <% if (msg!=1) { %>
@@ -53,3 +49,29 @@
     </div>
     <% } %>
 </div>
+
+<script>
+    var userIn = document.getElementById('exampleInputEmail1');
+    var str = "Valid email";
+    var ele = document.getElementById("submit");
+    var ele1 = document.getElementById("emailValid");
+    userIn.addEventListener("keyup",(event) => {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                if(str.localeCompare(this.responseText) == 0){
+                    ele.style.display = "inline";
+                    ele1.style.color = "green";
+                }
+                else{
+                    ele.style.display = "none";
+                    ele1.style.color = "red";
+                }
+                console.log(this.responseText);
+                document.getElementById("emailValid").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "/api/auth/email/?e="+userIn.value, true);
+        xhttp.send();
+    });
+</script>
