@@ -237,23 +237,26 @@ router.post('/sign-verify', (req, res) => {
                 publicKeys: (await openpgp.key.readArmored(pubkey)).keys // for verification
             });
             const { valid } = verified.signatures[0];
-            return valid
+            if(valid){
+                res.render('sign_verify', {
+                        msg: 'Signature is valid\nSigned by key id ' + verified.signatures[0].keyid.toHex()
+                })
+            }
         }
 
         const prom = signVerifyFunction();
-        prom.then(function (result) {
-            if(result){
-                res.render('sign_verify', {
-                        msg: 'signed by key id ' + result.keyid.toHex()
-                })
-            }else{
-                res.render('sign_verify', {
-                    msg: 'signature could not be verified'
-                })
-            }
-        })
+        prom.catch(function (err){
+            console.error('Invalid Signature')
+            res.render('sign_verify', {
+                msg: 'signature could not be verified'
+            })
+        });
    })
-   .catch( err => console.log(err))
+   .catch( function (err){
+    res.render('sign_verify', {
+        msg: err
+    })
+   })
 
 })
 
