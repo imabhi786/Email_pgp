@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">PGP Express</a>
+    <a class="navbar-brand" href="/homepage">PGP Express</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -8,7 +8,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/api/home/key-management">Key Management <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/api/home/key-management">Key Management <span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/home/encrypt">Encrypt</a>
@@ -22,17 +23,16 @@
 <div class="main">
     <h1 class="display-4">Revoke Key</h1>
     <form action="/api/auth/revoke_key" method="POST">
-        
+
         <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
                 placeholder="Enter email" required>
         </div>
-        
+
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password"
-                placeholder="Password" required>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
         </div>
         <button type="submit" class="btn btn-primary">Revoke</button>
     </form>
@@ -53,22 +53,16 @@
         </thead>
         <tbody class="keypair-list-container">
             <% for(var i = 0; i < value.length; i++) { %>
-                <tr>
-                    
-                    <% if (value[i].public_key == 'REVOKED') { %>
-                    <td style="background-color:#ff7d7d" scope="col"><%= value[i].name %></td>
-                    <td style="background-color:#ff7d7d" scope="col"><%= value[i].email %></td>
-                    <td style="background-color:#ff7d7d" scope="col"><%= value[i].date %></td>
-                    <td style="background-color:#ff7d7d" scope="col"><b>REVOKED<b></td>
-                    <%} %>
-                </tr>
+            <tr>
+
+                <% if (value[i].public_key == 'REVOKED') { %>
+                <td style="background-color:#ff7d7d" scope="col"><%= value[i].name %></td>
+                <td style="background-color:#ff7d7d" scope="col"><%= value[i].email %></td>
+                <td style="background-color:#ff7d7d" scope="col"><%= value[i].date %></td>
+                <td style="background-color:#ff7d7d" scope="col"><b>REVOKED<b></td>
+                <%} %>
+            </tr>
             <% } %>
         </tbody>
     </table>
-
-
-
-
 </div>
-
-
