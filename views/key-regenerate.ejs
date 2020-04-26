@@ -26,7 +26,7 @@
             <label for="public_key">Public Key</label>
             <p class = "back"><%= public_key %></p>
             <br><br>
-            <h3>You can now go back and generate new keys again under Key Management.</h3>
+            <center><h3><a href="/api/home/key-regenerate">Click here</a> to go back and generate new keys again under Key Management.</h3></center>
         </div>
     <% } else {%>
         <form action="/api/auth/get_key" method="POST">
