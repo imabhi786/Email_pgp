@@ -48,7 +48,7 @@ app.get('/homepage', (req, res) => {
 });
 
 
-app.get('/login-page', (req, res)=>{
+app.get('/login-page', (req, res) => {
     res.render('login-page')
 });
 
@@ -59,25 +59,13 @@ app.get('/', (req, res) => {
             access_type: 'offline',
             scope: 'https://www.googleapis.com/auth/gmail.readonly'
         });
-        //console.log(url)
         res.redirect(url);
     } else {
-        
+
         gmail.users.labels.list({
             userId: 'me',
         }, (err, res) => {
-             if (err) return console.log('The API returned an error: ' + err);
-            // const labels = res.data.labels;
-            // //console.log('Pre Labels:' + JSON.stringify(labels));
-            // if (labels.length) {
-            //     /*
-            //     console.log('Labels:');
-            //     labels.forEach((label) => {
-            //         console.log(`- ${label.name}`);
-            //     });*/
-            // } else {
-            //     console.log('No labels found.');
-            // }
+            if (err) return console.log('The API returned an error: ' + err);
         });
         res.send('logged in')
     }
@@ -96,9 +84,9 @@ app.get('/auth/google/callback', function (req, res) {
                 oAuth2Client.setCredentials(tokens);
                 authed = true;
                 const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
-                gmail.users.getProfile({userId:'me'},(err,res)=>{
+                gmail.users.getProfile({ userId: 'me' }, (err, res) => {
                     common.userEmail = res.data.emailAddress;
-                    console.log("gstuff : "+JSON.stringify(res.data.emailAddress));
+                    console.log("gstuff : " + JSON.stringify(res.data.emailAddress));
                 });
                 res.redirect('/homepage')
             }
