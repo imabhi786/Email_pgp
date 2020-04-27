@@ -1,3 +1,4 @@
 module.exports = {
-    userEmail:String,
+    userEmail: String,
+    isAuthenticated : Boolean,
 }
