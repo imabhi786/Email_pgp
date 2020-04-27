@@ -14,13 +14,13 @@
                 <a class="nav-link" href="/api/home/encrypt">Encrypt</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/api/home/decrypt">Decrypt</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="/api/home/sign">Sign</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/home/sign_verify">Sign Verify</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/home/decrypt">Decrypt</a>
             </li>
         </ul>
     </div>
@@ -61,6 +61,8 @@
         <button type="submit" class="btn btn-primary">Generate</button>
     </form>
     <% } else { %>
-    <h1 class="display-4">Key pair generated and downloaded successfully</h1>
+    <h1 class="display-4">Key pair generated</h1>
+        <h4 class="display-7">Download path: C:\PGPExpress_keys</h4>
+    
     <% } %>
 </div>
