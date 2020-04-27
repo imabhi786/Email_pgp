@@ -77,8 +77,7 @@ app.get('/auth/google/callback', function (req, res) {
         // Get an access token based on our OAuth code
         oAuth2Client.getToken(code, function (err, tokens) {
             if (err) {
-                console.log('Error authenticating')
-                console.log(err);
+                console.log('Error authenticating', err);
             } else {
                 console.log('Successfully authenticated');
                 oAuth2Client.setCredentials(tokens);
