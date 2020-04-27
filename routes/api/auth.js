@@ -36,6 +36,7 @@ router.post('/add_key', (req, res) => {
                                 numBits: parseInt(req.body.size),
                                 passphrase: user.password
                             };
+                            var privkey;
                             openpgp.generateKey(options).then(function (key) {
                                 privkey = key.privateKeyArmored; // '-----BEGIN PGP PRIVATE KEY BLOCK ... '
                                 pubkey = key.publicKeyArmored;   // '-----BEGIN PGP PUBLIC KEY BLOCK ... '
@@ -46,14 +47,28 @@ router.post('/add_key', (req, res) => {
                                 res.render("key-generate", {
                                     key: "global_key"
                                 })
-                                console.log("key added successfully");
                             }).then(function () {
                                 user
                                     .save()
                                     .then(user => console.log("User updated to DB successfully"))
                                     .catch(err => console.log('main2', err));
-                            })
-                                .catch((err) => console.log('main', err));
+
+                            }).then(function () {
+                                //downloading the private key
+                                try {
+                                    if (!fs.existsSync('C:\\PGPExpress_keys')) {
+                                        fs.mkdirSync('C:\\PGPExpress_keys')
+                                    }
+                                } catch (err) {
+                                    console.error(err)
+                                }
+                                // writeFile function with filename, content and callback function
+                                var name = "C:\\PGPExpress_keys\\" + req.body.email.split('.')[0] + ".txt";
+                                fs.writeFile(name, privkey, function (err) {
+                                    if (err) throw err;
+                                });
+
+                            }).catch((err) => console.log('main', err));;
                         });
                     });
 
@@ -89,7 +104,6 @@ router.post('/add_key', (req, res) => {
                             res.render("key-generate", {
                                 key: "key added"
                             })
-                            console.log("key added successfully");
                         }).then(function () {
                             newUser
                                 .save()
@@ -98,11 +112,9 @@ router.post('/add_key', (req, res) => {
 
                         }).then(function () {
                             //downloading the private key
-                            console.log('Download start')
                             try {
                                 if (!fs.existsSync('C:\\PGPExpress_keys')) {
                                     fs.mkdirSync('C:\\PGPExpress_keys')
-                                    console.log('Directory made')
                                 }
                             } catch (err) {
                                 console.error(err)
@@ -111,7 +123,6 @@ router.post('/add_key', (req, res) => {
                             var name = "C:\\PGPExpress_keys\\" + req.body.email.split('.')[0] + ".txt";
                             fs.writeFile(name, privkey, function (err) {
                                 if (err) throw err;
-                                console.log('File is created successfully.');
                             });
                         })
                             .catch((err) => console.log('main', err));
@@ -138,16 +149,13 @@ router.post('/get_key', (req, res) => {
             }
         })
         .catch(err => console.log(err));
-    // res.redirect('/api/home/key-publish');
 })
 
 router.post('/hash-sign', (req, res) => {
-
     const path = "C:\\PGPExpress_keys\\" + req.body.email.split('.')[0] + ".txt";
 
     try {
         if (fs.existsSync(path)) {
-            //file exists
             fs.readFile(path, function (err, data) {
                 if (err) {
                     res.render('sign', {
@@ -181,8 +189,6 @@ router.post('/hash-sign', (req, res) => {
                             msg: result.text,
                             userEmail: result.mail,
                         })
-                        console.log('Signed message')
-
                     }).catch(function (err) {
                         console.log(err)
                         res.render('sign', {
@@ -297,14 +303,13 @@ router.post('/decrypt-message', (req, res) => {
                         const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
                         await privKeyObj.decrypt(passphrase)
                         const encrypted = req.body.message;
-
                         const options1 = {
                             message: await openpgp.message.readArmored(encrypted),    // parse armored message
                             privateKeys: [privKeyObj]                                 // for decryption
                         }
 
                         const plaintext = await openpgp.decrypt(options1);
-                        return plaintext.data;
+                        return plaintext.data
                     }
 
                     const prom = encryptDecryptFunction();
@@ -399,4 +404,3 @@ router.get('/email', (req, res) => {
 
 
 module.exports = router;
-
