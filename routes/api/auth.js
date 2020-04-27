@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const openpgp = require('openpgp');
 const fs = require('fs');
 const key = require('../../setup/myDBurl').secret;
-
+const common = require("../../common");
 const User = require('../../models/user');
 
 openpgp.initWorker({ path: 'openpgp.worker.js' })
@@ -17,7 +17,10 @@ router.post('/add_key', (req, res) => {
         .then(user => {
             if (user) {
                 if (user.public_key != 'REVOKED') {
-                    return res.status(400).json({ emailError: 'Email has registered public key already' });
+                    res.render("key-generate",{
+                        key: "Revoked"
+                    });
+                    // return res.status(400).json({ emailError: 'Email has registered public key already' });
                 }
                 else {
                     user.name = req.body.name;
@@ -111,7 +114,6 @@ router.post('/add_key', (req, res) => {
                                 .catch(err => console.log('main2', err));
 
                         }).then(function () {
-                            //downloading the private key
                             try {
                                 if (!fs.existsSync('C:\\PGPExpress_keys')) {
                                     fs.mkdirSync('C:\\PGPExpress_keys')
@@ -119,7 +121,6 @@ router.post('/add_key', (req, res) => {
                             } catch (err) {
                                 console.error(err)
                             }
-                            // writeFile function with filename, content and callback function
                             var name = "C:\\PGPExpress_keys\\" + req.body.email.split('.')[0] + ".txt";
                             fs.writeFile(name, privkey, function (err) {
                                 if (err) throw err;
@@ -129,7 +130,6 @@ router.post('/add_key', (req, res) => {
                     })
                 })
             }
-            // res.redirect('/api/home/key-management');
         })
         .catch(err => console.log("DB", err));
 });
@@ -145,7 +145,9 @@ router.post('/get_key', (req, res) => {
                 })
             }
             else {
-                return res.status(400).json({ Error: "User does not exist" });
+                res.render('key-publish', {
+                    public_key : []
+                });
             }
         })
         .catch(err => console.log(err));
@@ -326,7 +328,7 @@ router.post('/decrypt-message', (req, res) => {
                         const options1 = {
                             message: await openpgp.message.readArmored(encrypted),    // parse armored message
                             privateKeys: [privKeyObj]                                 // for decryption
-                        }
+                        } 
 
                         const plaintext = await openpgp.decrypt(options1);
                         return plaintext.data
@@ -359,37 +361,45 @@ router.post('/revoke_key', (req, res) => {
 
     passwordEntered = req.body.password;
     emailEntered = req.body.email;
-
     User
-        .findOne({ email: emailEntered })
-        .then(user => {
-
-            if (user) {
-                const dBpassword = user.password;
-
-                bcrypt.compare(passwordEntered, dBpassword)
-                    .then((isCorrect) => {
-                        if (isCorrect) {
-                            user.public_key = 'REVOKED';
-                            user
-                                .save()
-                                .then(user => console.log("Revoked successfully"))
-                                .catch(err => console.log('NOOOOOO ', err));
-                            res.render('key-regenerate', {
-                                public_key: user.public_key
-                            })
-                        }
-                        else {
-                            res.status(400).json({ message: 'Incorrect password' });
-                        }
+    .findOne({ email: emailEntered })
+    .then(user => {
+        if (user) {
+            const dBpassword = user.password;
+            bcrypt.compare(passwordEntered, dBpassword)
+            .then((isCorrect) => {
+                if (isCorrect) {
+                    user.public_key = 'REVOKED';
+                    user
+                    .save()
+                    .then(user => console.log("Revoked successfully"))
+                    .catch(err => console.log('NOOOOOO ', err));
+                    res.render('key-regenerate', {
+                        public_key: user.public_key,
+                        message : "success"
                     })
-                    .catch(err => console.log(err));
-            }
-            else {
-                return res.json({ message: 'Email not Registered' });
-            }
-        })
-        .catch(err => console.log(err));
+                }
+                else {
+                    User
+                    .find()
+                    .then(user => {
+                        res.render('key-revoke', {
+                            userEmail:common.userEmail,
+                            value: user,
+                            message : "Wrong Password"
+                        });
+                    })
+                    .catch((err) => console.log(err));
+                }
+            })
+            .catch(err => console.log(err));
+        }
+        else {
+            //handled this case through xhr post
+            return res.json({ message: 'Email not Registered' });
+        }
+    })
+    .catch(err => console.log(err));
 });
 
 
@@ -406,6 +416,34 @@ router.get('/email', (req, res) => {
         .then(user => {
             if (!user) {
                 res.send('User does not exist');
+                return
+            }
+            else {
+                if (user.public_key == "REVOKED") {
+                    res.send("Public key of this user is revoked");
+                    return;
+                }
+                else {
+                    res.send("Valid email");
+                    return;
+                }
+            }
+        })
+        .catch(err => console.log(err));
+});
+
+router.post('/email', (req, res) => {
+    let input = req.body.email;
+    console.log(input);
+    if (input.indexOf('@') == -1) {
+        res.send("Email is not valid");
+        return;
+    }
+    User
+        .findOne({ email: input })
+        .then(user => {
+            if (!user) {
+                res.send('User does not exist. Please register first');
                 return
             }
             else {

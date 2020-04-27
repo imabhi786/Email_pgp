@@ -28,14 +28,5 @@
             <br><br>
             <center><h3><a href="/api/home/key-regenerate">Click here</a> to go back and generate new keys again under Key Management.</h3></center>
         </div>
-    <% } else {%>
-        <form action="/api/auth/get_key" method="POST">
-            <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
-                    placeholder="Enter email" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Display Public Key</button>
-        </form>
-    <% } %>
+    <% }%>
 </div>

@@ -114,7 +114,8 @@ router.get('/key-revoke',(req,res) => {
         .then(user => {
             res.render('key-revoke', {
                 userEmail:common.userEmail,
-                value: user
+                value: user,
+                message: []
             });
         })
         .catch((err) => console.log(err));
