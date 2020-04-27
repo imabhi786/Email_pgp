@@ -161,34 +161,34 @@ router.post('/hash-sign', (req, res) => {
                 }
                 const privKey = data.toString('utf8');
                 console.log('Signing begins')
-                console.log(req.body.message)
+                console.log(-req.body.message)
 
                 const SignFunction = async () => {
                     try{
                     const { keys: [privateKey] } = await openpgp.key.readArmored(privKey);
                     await privateKey.decrypt(req.body.password);
  
-                const { data: cleartext } = await openpgp.sign({
-                    message: openpgp.cleartext.fromText(req.body.message), // CleartextMessage or Message object
-                    privateKeys: [privateKey]                             // for signing
-                });
+                    const { data: cleartext } = await openpgp.sign({
+                        message: openpgp.cleartext.fromText(req.body.message), // CleartextMessage or Message object
+                        privateKeys: [privateKey]                             // for signing
+                    });
 
-                console.log(cleartext)
-                return {text: cleartext, mail: req.body.email}
-            }catch{
-                console.error('Incorrect Password')
-                return
-            }
+                    console.log(cleartext)
+                    return {text: cleartext, mail: req.body.email}
+                    }catch{
+                        console.error('Incorrect Password')
+                        return
+                    }
                 }
-                    try{
+                try{
                     const prom = SignFunction();
                     prom.then(function (result) {
-                        res.render('sign', {
-                            msg: result.text,
-                            userEmail:result.mail,
-                        })
-                        console.log('Signed message')
-                    
+                    res.render('sign', {
+                        msg: result.text,
+                        userEmail:result.mail,
+                    })
+                    console.log('Signed message')
+                
                     }).catch(function(err){
                     console.log(err)
                     res.render('sign', {
@@ -196,9 +196,9 @@ router.post('/hash-sign', (req, res) => {
                         userEmail:req.body.email,
                     })
                     });
-                    }catch{
-                        console.log('Final')
-                    }
+                }catch{
+                    console.log('Final')
+                }
             });
         }else{
             res.render('sign', {
@@ -217,7 +217,7 @@ router.post('/hash-sign', (req, res) => {
 router.post('/sign-verify', (req, res) => {
     User
     .findOne({email: req.body.email})
-   .then( user => {
+    .then( user => {
         const pubkey = user.public_key;
         console.log(pubkey);
 
