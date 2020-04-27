@@ -11,6 +11,7 @@ var dotenv = require('dotenv').config();
 const expressLayouts = require('express-ejs-layouts');
 const { google } = require('googleapis');
 const common = require('./common');
+common.isAuthenticated = false;
 let rawdata = fs.readFileSync('g_key.json');
 const OAuth2Data = JSON.parse(rawdata);
 
@@ -44,12 +45,22 @@ app.set('view engine', 'ejs');
 
 //Testing the server
 app.get('/homepage', (req, res) => {
-    res.render('homepage');
+
+    status = common.isAuthenticated;
+    if(status)
+    {
+        res.render('homepage');
+    }
+    else
+    {
+        res.redirect('/');
+    }
+    
 });
 
 
-app.get('/login-page', (req, res) => {
-    res.render('login-page')
+app.get('/access-denied-page', (req, res) => {
+    res.render('access-denied-page');
 });
 
 app.get('/', (req, res) => {
@@ -62,12 +73,7 @@ app.get('/', (req, res) => {
         res.redirect(url);
     } else {
 
-        gmail.users.labels.list({
-            userId: 'me',
-        }, (err, res) => {
-            if (err) return console.log('The API returned an error: ' + err);
-        });
-        res.send('logged in')
+        res.redirect('/homepage')
     }
 })
 
@@ -85,6 +91,7 @@ app.get('/auth/google/callback', function (req, res) {
                 const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
                 gmail.users.getProfile({ userId: 'me' }, (err, res) => {
                     common.userEmail = res.data.emailAddress;
+                    common.isAuthenticated = true;
                     console.log("gstuff : " + JSON.stringify(res.data.emailAddress));
                 });
                 res.redirect('/homepage')

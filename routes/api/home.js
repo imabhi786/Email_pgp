@@ -14,12 +14,20 @@ router.get('/', (req, res) => {
             });
         })
         .catch((err) => console.log(err));
-})
+});
 
 
 router.get('/key-management', (req, res) => {
 
-    User
+    let status = common.isAuthenticated;
+
+    if(!status)
+    {
+        res.redirect("/access-denied-page");
+    }
+    else
+    {
+        User
         .find()
         .then(user => {
             res.render('key-management', {
@@ -27,37 +35,81 @@ router.get('/key-management', (req, res) => {
             });
         })
         .catch((err) => console.log(err));
-})
+    }
+    
+});
 
 
 router.get('/key-generate',(req,res) => {
-    res.render('key-generate',{
-        userEmail:common.userEmail,
-        key: []
-    });
-})
+    let status = common.isAuthenticated;
+    if(!status)
+    {
+        res.redirect("/access-denied-page");
+    }
+    else
+    {
+        res.render('key-generate',{
+            userEmail:common.userEmail,
+            key: []
+        });
+    }
+    
+});
 
 router.get('/key-publish', (req, res) => {
-    res.render('key-publish', {
-        public_key: []
-    });
+    let status = common.isAuthenticated;
+    if(!status)
+    {
+        res.redirect("/access-denied-page");
+    }
+    else
+    {
+        res.render('key-publish', {
+            public_key: []
+        });
+    }
+    
 });
 
 router.get('/encrypt', (req, res) => {
-    res.render('encrypt', {
-        msg: 1
-    });
+    let status = common.isAuthenticated;
+    if(!status)
+    {
+        res.redirect("/access-denied-page");
+    }
+    else
+    {
+        res.render('encrypt', {
+            msg: 1
+        });
+    }
 });
 
 router.get('/decrypt', (req, res) => {
-    res.render('decrypt', {
-        userEmail : common.userEmail,
-        msg: 1
-    });
+    let status = common.isAuthenticated;
+    if(!status)
+    {
+        res.redirect("/access-denied-page");
+    }
+    else
+    {
+        res.render('decrypt', {
+            userEmail : common.userEmail,
+            msg: 1
+        });
+    }
+    
 });
 
 router.get('/key-revoke',(req,res) => {
-    User
+    let status = common.isAuthenticated;
+    if(!status)
+    {
+        res.redirect("/access-denied-page");
+    }
+    else
+    {
+        User
         .find()
         .then(user => {
             res.render('key-revoke', {
@@ -66,32 +118,60 @@ router.get('/key-revoke',(req,res) => {
             });
         })
         .catch((err) => console.log(err));
-})
+    }
+    
+});
 
 
 router.get('/sign', (req, res) => {
 
-    res.render('sign', {
-        userEmail:common.userEmail,
-        key: [],
-        msg: 1
-    });
+    let status = common.isAuthenticated;
+    if(!status)
+    {
+        res.redirect("/access-denied-page");
+    }
+    else
+    {
+        res.render('sign', {
+            userEmail:common.userEmail,
+            key: [],
+            msg: 1
+        });
+    }
+    
 
 });
 
 router.get('/sign_verify', (req, res) => {
-
-    res.render('sign_verify', {
-        msg: 1
-    });
+    let status = common.isAuthenticated;
+    if(!status)
+    {
+        res.redirect("/access-denied-page");
+    }
+    else
+    {
+        res.render('sign_verify', {
+            msg: 1
+        });
+    }
+    
 
 });
 
 router.get('/key-regenerate', (req, res) => {
-    res.render('key-generate', {
-        userEmail:common.userEmail,
-        key: []
-    });
+    let status = common.isAuthenticated;
+    if(!status)
+    {
+        res.redirect("/access-denied-page");
+    }
+    else
+    {
+        res.render('key-generate', {
+            userEmail:common.userEmail,
+            key: []
+        });
+    }
+
 });
 
 
