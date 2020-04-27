@@ -152,67 +152,87 @@ router.post('/get_key', (req, res) => {
 })
 
 router.post('/hash-sign', (req, res) => {
-    const path = "C:\\PGPExpress_keys\\" + req.body.email.split('.')[0] + ".txt";
+    //karan
+    
+    const path = "C:\\PGPExpress_keys\\"+req.body.email.split('.')[0]+".txt";
 
     try {
         if (fs.existsSync(path)) {
-            fs.readFile(path, function (err, data) {
-                if (err) {
+            //file exists
+            fs.readFile(path,function(err, data) { 
+                if (err){
                     res.render('sign', {
                         msg: err,
-                        userEmail: req.body.email,
+                        userEmail:req.body.email,
                     })
                     throw err;
                 }
                 const privKey = data.toString('utf8');
+                console.log('Signing begins')
+                console.log(req.body.message)
+                console.log(privKey)
+
+                User
+            .findOne({email: req.body.email})
+            .then( user => {
+                const passphrase = user.password;
 
                 const SignFunction = async () => {
-                    try {
+                    try{
                         const { keys: [privateKey] } = await openpgp.key.readArmored(privKey);
-                        await privateKey.decrypt(req.body.password);
+                    console.log(req.body.password);
+                    await privateKey.decrypt(passphrase);
+                    console.log("Private key ->>")
+ 
+                const { data: cleartext } = await openpgp.sign({
+                    message: openpgp.cleartext.fromText(req.body.message), // CleartextMessage or Message object
+                    privateKeys: [privateKey]                             // for signing
+                });
 
-                        const { data: cleartext } = await openpgp.sign({
-                            message: openpgp.cleartext.fromText(req.body.message), // CleartextMessage or Message object
-                            privateKeys: [privateKey]                             // for signing
-                        });
-
-                        return { text: cleartext, mail: req.body.email }
-                    } catch{
-                        console.error('Incorrect Password')
-                        return
-                    }
+                console.log(cleartext)
+                return {text: cleartext, mail: req.body.email}
+            }catch(err2){
+                console.error('Incorrect Password')
+                console.log(err2)
+                return
+            }
                 }
-                try {
+                    try{
                     const prom = SignFunction();
                     prom.then(function (result) {
                         res.render('sign', {
                             msg: result.text,
-                            userEmail: result.mail,
+                            userEmail:result.mail,
                         })
-                    }).catch(function (err) {
-                        console.log(err)
-                        res.render('sign', {
-                            msg: err,
-                            userEmail: req.body.email,
-                        })
+                        console.log('Signed message')
+                    
+                    }).catch(function(err){
+                    console.log(err)
+                    res.render('sign', {
+                        msg: err,
+                        userEmail:req.body.email,
+                    })
                     });
-                } catch{
-                    console.log('Final')
-                }
+                    }catch{
+                        console.log('Final')
+                    }
             });
-        } else {
+        })
+        }else{
             res.render('sign', {
                 msg: 'Key does not exist in local machine',
-                userEmail: req.body.email,
+                userEmail:req.body.email,
             })
         }
-    } catch (path) {
+      } catch(path) {
         res.render('sign', {
             msg: path,
-            userEmail: req.body.email,
+            userEmail:req.body.email,
         })
-    }
+      } 
 });
+
+
 
 router.post('/sign-verify', (req, res) => {
     User

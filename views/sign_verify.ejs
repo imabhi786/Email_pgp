@@ -26,18 +26,19 @@
     </div>
 </nav>
 <div class="main">
-    <h1 class="display-4">Verify Sign</h1>
+    <h1 class="display-4">Sign Verify</h1>
     <form action="/api/auth/sign-verify" method="POST">
         <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
-                placeholder= "Sender E-mail" required>
+            <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
+                placeholder="Enter recepient's email address" required>
+                <p id="emailValid" style="color: red"></p>
         </div>
         <div class="form-group">
             <label for="message">Signature</label>
             <textarea class="form-control" id="signature" name="signature" rows="3"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Verify</button>
+        <button type="submit" id="submit" class="btn btn-primary">Verify</button>
     </form>
     
     <hr>
@@ -49,3 +50,28 @@
     <% } %>
 
 </div>
+
+<script>
+    var userIn = document.getElementById('exampleInputEmail1');
+    var str = "Valid email";
+    var ele = document.getElementById("submit");
+    var ele1 = document.getElementById("emailValid");
+    userIn.addEventListener("keyup", (event) => {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                if (str.localeCompare(this.responseText) == 0) {
+                    ele.style.display = "inline";
+                    ele1.style.color = "green";
+                }
+                else {
+                    ele.style.display = "none";
+                    ele1.style.color = "red";
+                }
+                document.getElementById("emailValid").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "/api/auth/email/?e=" + userIn.value, true);
+        xhttp.send();
+    });
+</script>
