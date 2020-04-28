@@ -175,5 +175,14 @@ router.get('/key-regenerate', (req, res) => {
 
 });
 
+router.get('/teampage', (req, res) => {
+
+    User
+        .find()
+        .then(user => {
+            res.render('teampage');
+        })
+        .catch((err) => console.log(err));
+});
 
 module.exports = router;
