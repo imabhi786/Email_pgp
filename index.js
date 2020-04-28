@@ -73,7 +73,8 @@ app.get('/', (req, res) => {
         res.redirect(url);
     } else {
 
-        res.redirect('/homepage')
+        //res.redirect('/homepage');
+        res.render('homepage');
     }
 })
 
@@ -92,9 +93,10 @@ app.get('/auth/google/callback', function (req, res) {
                 gmail.users.getProfile({ userId: 'me' }, (err, res) => {
                     common.userEmail = res.data.emailAddress;
                     common.isAuthenticated = true;
-                    console.log("gstuff : " + JSON.stringify(res.data.emailAddress));
+                    //console.log("gstuff : " + JSON.stringify(res.data.emailAddress));
                 });
-                res.redirect('/homepage')
+                //res.redirect('/homepage');
+                res.render('homepage');
             }
         });
     }
