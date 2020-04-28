@@ -95,8 +95,8 @@ app.get('/auth/google/callback', function (req, res) {
                     common.isAuthenticated = true;
                     //console.log("gstuff : " + JSON.stringify(res.data.emailAddress));
                 });
-                //res.redirect('/homepage');
-                res.render('homepage');
+                res.redirect('/homepage');
+                //res.render('homepage');
             }
         });
     }
