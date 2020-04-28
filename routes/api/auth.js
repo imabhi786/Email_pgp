@@ -218,6 +218,11 @@ router.post('/hash-sign', (req, res) => {
                 }catch{
                     console.log('Final')
                 }
+            }).catch(function (error1){
+                res.render('sign', {
+                    msg: error1+" or key does not exist",
+                    userEmail:req.body.email,
+                })
             });
         })
         }else{
@@ -242,14 +247,21 @@ router.post('/sign-verify', (req, res) => {
         .then(user => {
             const pubkey = user.public_key;
             const signVerifyFunction = async () => {
-                const verified = await openpgp.verify({
+                const verified =  await openpgp.verify({
                     message: await openpgp.cleartext.readArmored(req.body.signature),           // parse armored message
                     publicKeys: (await openpgp.key.readArmored(pubkey)).keys // for verification
                 });
+                console.log("Verified")
                 const { valid } = verified.signatures[0];
+                console.log("Verified")
                 if (valid) {
+                    console.log("Valid")
                     res.render('sign_verify', {
                         msg: 'Signature is valid\nSigned by key id ' + verified.signatures[0].keyid.toHex()
+                    })
+                }else{
+                    res.render('sign_verify', {
+                        msg: 'Signature could not be verified'
                     })
                 }
             }
@@ -258,7 +270,7 @@ router.post('/sign-verify', (req, res) => {
             prom.catch(function (err) {
                 console.error('Invalid Signature')
                 res.render('sign_verify', {
-                    msg: 'signature could not be verified'
+                    msg: 'Signature could not be verified'
                 })
             });
         })
