@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/">PGP Express</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,7 +8,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/api/home/key-management">Key Management <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/api/home/key-management">Key Management <span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/home/encrypt">Encrypt</a>
@@ -31,11 +32,14 @@
 <div class="main">
     <h1 class="display-4">Display key</h1>
     <% if(public_key.length) { %>
-        <div class="form-group"></div>
-            <label for="public_key">Public Key</label>
-            <p class = "back"><%= public_key %></p>
-            <br><br>
-            <center><h3><a href="/api/home/key-regenerate">Click here</a> to go back and generate new keys again under Key Management.</h3></center>
-        </div>
-    <% }%>
+    <div class="form-group"></div>
+    <label for="public_key">Public Key</label>
+    <p class="back"><%= public_key %></p>
+    <br><br>
+    <center>
+        <h3><a href="/api/home/key-regenerate">Click here</a> to go back and generate new keys again under Key
+            Management.</h3>
+    </center>
+</div>
+<% }%>
 </div>

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/homepage">PGP Express</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,46 +31,47 @@
 </nav>
 <div class="main">
     <h1 class="display-4">Display key</h1>
+    <hr>
     <% if(public_key.length) { %>
-        <div class="form-group"></div>
-            <label for="public_key">Public Key</label>
-            <p class="back"><%= public_key %></p>
-        </div>
-    <% } else {%>
-    <form action="/api/auth/get_key" method="POST">
-        <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
-                placeholder="Enter email" required>
-                <p id="emailValid" style="color: red"></p>
-        </div>
-        <button type="submit" id = "submit" class="btn btn-primary" style="display: none" >Display Public Key</button>
-    </form>
-    <% } %>
+    <div class="form-group"></div>
+    <label for="public_key">Public Key</label>
+    <textarea class="form-control" id="revoc-sign" rows="30" disabled><%= public_key %></textarea>
+</div>
+<% } else {%>
+<form action="/api/auth/get_key" method="POST">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp"
+            placeholder="Enter email" required>
+        <p id="emailValid" style="color: red"></p>
+    </div>
+    <button type="submit" id="submit" class="btn " style="display: none">Display Public Key</button>
+</form>
+<% } %>
 </div>
 
 
 <script>
-        var userIn = document.getElementById('exampleInputEmail1');
-        var str = "Valid email";
-        var ele = document.getElementById("submit");
-        var ele1 = document.getElementById("emailValid");
-        userIn.addEventListener("keyup", (event) => {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    if (str.localeCompare(this.responseText) == 0) {
-                        ele.style.display = "inline";
-                        ele1.style.color = "green";
-                    }
-                    else {
-                        ele.style.display = "none";
-                        ele1.style.color = "red";
-                    }
-                    document.getElementById("emailValid").innerHTML = this.responseText;
+    var userIn = document.getElementById('exampleInputEmail1');
+    var str = "Valid email";
+    var ele = document.getElementById("submit");
+    var ele1 = document.getElementById("emailValid");
+    userIn.addEventListener("keyup", (event) => {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                if (str.localeCompare(this.responseText) == 0) {
+                    ele.style.display = "inline";
+                    ele1.style.color = "green";
                 }
-            };
-            xhttp.open("GET", "/api/auth/email/?e=" + userIn.value, true);
-            xhttp.send();
-        });
-    </script>
+                else {
+                    ele.style.display = "none";
+                    ele1.style.color = "red";
+                }
+                document.getElementById("emailValid").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "/api/auth/email/?e=" + userIn.value, true);
+        xhttp.send();
+    });
+</script>
