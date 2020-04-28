@@ -1,34 +1,86 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/homepage">PGP Express</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/api/home/key-management">Key Management</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/api/home/encrypt">Encrypt</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/api/home/sign">Sign</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/api/home/sign_verify">Sign Verify</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/api/home/decrypt">Decrypt</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-<div class="main">
-    <h1 class="display-4">Home page</h1>
-    <hr>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Beatae qui, sed natus iste et debitis quia
-        consequatur laboriosam, possimus minus labore aspernatur quaerat praesentium rerum. Ab qui praesentium
-        aperiam optio?</p>
+<html>
+<div class="fluid" style="background-color:white; padding:5%">
+    <div class="animated fadeInDown">
+    <div class="row" style="padding-bottom:5%; padding-top:3%">
+        <div class="col-sm-9 col-md-6 col-lg-6">
+            <img class="img-responsive" src="../images/email.svg" height=500%></img>
+        </div>
+        <div class="col-sm-3 col-md-6 col-lg-6" style="padding-top:10%">
+          <center><p style="font-size:70px; font-family: 'Montserrat', sans-serif; color:#6C63FF"><b>PGP Express</b></p></center>
+          <hr>
+          <center><p style="font-size:30px; font-family: 'Montserrat', sans-serif;"><b>Let's talk securely</b></p></center><br>
+          <center><a href="#produce"><button class="button button1">ROADMAP</button></a></center>
+        </div>
+  </div>
+  </div>
+  <br><br>
+
+  <div class="row" id="produce" style="padding-bottom:5%; padding-top:3%">
+        <div class="col-sm-9 col-md-6 col-lg-6"  style="padding-top:10%">
+            <center><p style="font-size:60px; font-family: 'Montserrat', sans-serif; color:#6C63FF"><b>GENERATE KEYS</b></p></center>
+            <hr><br>
+            <center><p style="font-size:30px; font-family: 'Montserrat', sans-serif;"><b>Unique PUBLIC and PRIVATE keys</b></p></center><br>
+            <center><a href="/api/home/key-management"><button class="button button1">MANAGE KEYS</button></a></center>       
+        </div>
+        <div class="col-sm-3 col-md-6 col-lg-6" style="padding:3%">      
+          <img class="img-responsive" src="../images/produce.svg" height=300%></img>
+        </div>
+  </div>
+  <br><br>
+
+  <div class="row" style="padding-bottom:5%; padding-top:3%">
+        <div class="col-sm-9 col-md-6 col-lg-6">
+            <img class="img-responsive" src="../images/encrypt.svg" height=450%></img>
+        </div>
+        <div class="col-sm-3 col-md-6 col-lg-6" style="padding-top:10%">
+          <center><p style="font-size:60px; font-family: 'Montserrat', sans-serif; color:#6C63FF"><b>ENCRYPT</b></p></center>
+          <hr><br>
+          <center><p style="font-size:30px; font-family: 'Montserrat', sans-serif;"><b>Using RECEIVER'S PUBLIC key</b></p></center><br>
+          <center><a href="/api/home/encrypt"><button class="button button1">ENCRYPT YOUR MESSAGE</button></a></center>
+        </div>
+  </div>
+  <br><br>
+
+  <div class="row" id="produce" style="padding-bottom:5%; padding-top:3%">
+        <div class="col-sm-9 col-md-6 col-lg-6"  style="padding-top:10%">
+            <center><p style="font-size:55px; font-family: 'Montserrat', sans-serif; color:#6C63FF"><b>SIGN THE MESSAGE</b></p></center>
+            <hr><br>
+            <center><p style="font-size:30px; font-family: 'Montserrat', sans-serif;"><b>Using YOUR PRIVATE key</b></p></center><br>
+            <center><a href="/api/home/sign"><button class="button button1">SIGN YOUR MESSAGE</button></a></center>       
+        </div>
+        <div class="col-sm-3 col-md-6 col-lg-6" style="padding:3%">      
+          <img class="img-responsive" src="../images/sign.svg" height=400%></img>
+        </div>
+  </div>
+  <br><br>
+
+
+  <div class="row" style="padding-bottom:5%; padding-top:3%">
+        <div class="col-sm-9 col-md-6 col-lg-6">
+            <img class="img-responsive" src="../images/verify.svg" height=450%></img>
+        </div>
+        <div class="col-sm-3 col-md-6 col-lg-6" style="padding-top:10%">
+          <center><p style="font-size:55px; font-family: 'Montserrat', sans-serif; color:#6C63FF"><b>VERIFY SIGNATURES</b></p></center>
+          <hr><br>
+          <center><p style="font-size:30px; font-family: 'Montserrat', sans-serif;"><b>Using SENDER'S PUBLIC key</b></p></center><br>
+          <center><a href="/api/home/sign_verify"><button class="button button1">VERIFY A SIGNATURE</button></a></center>
+        </div>
+  </div>
+  <br>
+
+  <div class="row" id="produce" style="padding-bottom:5%; padding-top:2%">
+        <div class="col-sm-9 col-md-6 col-lg-6"  style="padding-top:10%">
+            <center><p style="font-size:60px; font-family: 'Montserrat', sans-serif; color:#6C63FF"><b>DECRYPT</b></p></center>
+            <hr><br>
+            <center><p style="font-size:30px; font-family: 'Montserrat', sans-serif;"><b>Using YOUR PRIVATE key</b></p></center><br>
+            <center><a href="/api/home/decrypt"><button class="button button1">DECRYPT A MESSAGE</button></a></center>       
+        </div>
+        <div class="col-sm-3 col-md-6 col-lg-6" style="padding:3%">      
+          <img class="img-responsive" src="../images/decrypt.svg" height=380%></img>
+        </div>
+  </div>
+  <br><br>
 </div>
+<center><img class="img-responsive" src="../images/team.png" height=40%></img><p style="font-family: 'Montserrat', sans-serif;"><a href="https://github.com/imabhi786/Email_pgp/graphs/contributors">Meet our Developers</a></p></center>
+</html>
