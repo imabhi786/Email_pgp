@@ -472,5 +472,8 @@ router.post('/email', (req, res) => {
         .catch(err => console.log(err));
 });
 
+router.post('/teampage', (req, res) => {
+        res.render('teampage');
+});
 
 module.exports = router;
