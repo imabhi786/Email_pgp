@@ -2,82 +2,164 @@
 <html>
 
 <head>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <style>
-    
-        html {
-          scroll-behavior: smooth;
-        }
-
-        .main {
-            width: 80%;
-            padding: 30px;
-            padding-top: 15px;
-            margin: 0 auto;
-            margin-top: 30px;
-            border-radius: 5px;
-            background-color: #eee;
-        }
-
-        .flex{
-            display: flex;
-        }
-
-        .box{
-            margin: 10px 10px
-        }
-        .back {
-            width: 80%;
-            padding-top: 15px;
-            margin: 0 auto;
-            margin-top: 30px;
-            border-radius: 5px;
-            background-color: white;
-        }
-        .button {
-          background-color: #6C63FF; 
-          border: none;
-          color: white;
-          padding: 16px 32px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          font-size: 16px;
-          margin: 4px 2px;
-          transition-duration: 0.4s;
-          cursor: pointer;
-          border-radius: 15px;
-        }
-
-        .button1 {
-          background-color: white; 
-          color: black; 
-          border: 2px solid #6C63FF;
-        }
-
-        .button1:hover {
-          background-color: #6C63FF;
-          color: white;
-        }
-
-
-
-    </style>
-    <title>PGP Express</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="styles/style.css">
+  <title>PGP Express</title>
 
 </head>
+<style>
+  body {
+    background-color: #eee;
+  }
+
+  .main {
+    width: 80%;
+    padding: 30px;
+    padding-top: 15px;
+    margin: 0 auto;
+    margin-top: 30px;
+    border: 1px solid white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    background-color: white;
+  }
+
+  .flex {
+    display: flex;
+  }
+
+  .box {
+    margin: 10px 10px
+  }
+
+  .back {
+    width: 80%;
+    padding-top: 15px;
+    margin: 0 auto;
+    margin-top: 30px;
+    border-radius: 5px;
+    background-color: white;
+  }
+
+  .button {
+    background-color: #6C63FF;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 15px;
+  }
+
+  .button1 {
+    background-color: white;
+    color: #6C63FF;
+    border: 2px solid #6C63FF;
+  }
+
+  .button1:hover {
+    background-color: #6C63FF;
+    color: white;
+  }
+
+  .navbar {
+    background-color: #6C63FF;
+  }
+
+  .navbar-brand {
+    color: white;
+  }
+
+  .navbar-brand:hover {
+    color: #eee;
+  }
+
+  .nav-link {
+    color: white;
+    margin: 2px;
+
+    border: 1px solid #6C63FF;
+    border-radius: 5px;
+  }
+
+  .nav-link:hover {
+    border: 1px solid white;
+    color: white;
+    border-radius: 5px;
+  }
+
+  .active {
+    border: 1px solid white;
+    color: white;
+    border-radius: 5px;
+  }
+
+  .btn {
+    color: white;
+    background-color: #6C63FF;
+    border-color: #6C63FF;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.26);
+  }
+
+  /* .btn:active {
+    background-color: #4b45b2;
+    border-color: #6C63FF;
+    box-shadow: none;
+  } */
+
+  .btn:disabled {
+    background-color: grey;
+    border-color: grey;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  }
+
+  .btn:hover {
+    color: white;
+    background-color: #6C63FF;
+    border-color: #6C63FF;
+    box-shadow: none;
+  }
+
+  .table {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  }
+
+  th {
+    color: black !important;
+    background-color: #eee !important;
+  }
+
+  .table .thead-dark th {
+    border: 1px transparent;
+  }
+
+  .col-sm {
+    padding: 10px;
+    margin: 10px;
+    background-color: #eee;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  }
+</style>
 
 <body>
-    <%- body -%>
+  <%- body -%>
 </body>
 
 </html>

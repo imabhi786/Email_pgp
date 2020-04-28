@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/homepage">PGP Express</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,7 +8,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/api/home/key-management">Key Management <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/api/home/key-management">Key Management <span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/home/encrypt">Encrypt</a>
@@ -28,6 +29,7 @@
 <div class="main">
     <% if(key.length == 0) { %>
     <h1 class="display-4">Generate key pair</h1>
+    <hr>
     <form action="/api/auth/add_key" method="POST">
         <div class="form-group">
             <label for="name">Name</label>
@@ -37,7 +39,7 @@
         <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
-                placeholder= "<%= userEmail %>" value= "<%= userEmail %> " required readonly>
+                placeholder="<%= userEmail %>" value="<%= userEmail %> " required readonly>
         </div>
         <div class="form-group">
             <label for="algorithm">Algorithm</label>
@@ -55,15 +57,15 @@
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" name="password"
-                placeholder="Password" required>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
         </div>
-        <button type="submit" class="btn btn-primary">Generate</button>
+        <button type="submit" class="btn ">Generate</button>
     </form>
     <% } else if(key.length == 7){ %>
     <h1 class="display-4">Email has registered public key already</h1>
     <% } else { %>
     <h1 class="display-4">Key pair generated</h1>
+    <hr>
     <h4 class="display-7">Download path: C:\PGPExpress_keys</h4>
     <% } %>
 </div>
