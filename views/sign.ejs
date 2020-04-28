@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/homepage">PGP Express</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,7 +8,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/api/home/key-management">Key Management <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/api/home/key-management">Key Management <span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/home/encrypt">Encrypt</a>
@@ -27,19 +28,20 @@
 </nav>
 <div class="main">
     <h1 class="display-4">Sign Message</h1>
+    <hr>
     <form action="/api/auth/hash-sign" method="POST">
         <div class="form-group">
             <label for="email">Email address</label>
             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp"
-                placeholder= "<%= userEmail %>" value= "<%= userEmail %> " required readonly>
+                placeholder="<%= userEmail %>" value="<%= userEmail %> " required readonly>
         </div>
         <div class="form-group">
             <label for="message">Message</label>
-            <textarea class="form-control" id="signMessage1" name="message" rows="3"></textarea>
+            <textarea class="form-control" id="signMessage1" name="message" rows="15"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Generate</button>
+        <button type="submit" class="btn ">Generate</button>
     </form>
-    
+
     <hr>
     <% if (msg!=1) { %>
     <div class="form-group">

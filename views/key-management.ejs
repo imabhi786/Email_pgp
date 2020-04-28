@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg">
     <a class="navbar-brand" href="/homepage">PGP Express</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -8,7 +8,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="/api/home/key-management">Key Management <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/api/home/key-management">Key Management <span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/api/home/encrypt">Encrypt</a>
@@ -28,20 +29,54 @@
 <div class="main">
     <h1 class="display-4">Key Management</h1>
     <hr>
-    <p>Generate key pair</p>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <center>
+                    <p>Generate key pair</p>
+                    <form action="/api/home/key-generate">
+                        <button type="submit" class="btn">Generate</button>
+                    </form>
+                </center>
+            </div>
+            <div class="col-sm">
+                <center>
+                    <p>Get public key from key-server</p>
+                    <form action="/api/home/key-publish">
+                        <button type="submit" class="btn">Get Key</button>
+                    </form>
+                </center>
+            </div>
+            <div class="col-sm">
+                <center>
+                    <p>Revoke key pair</p>
+                    <form action="/api/home/key-revoke">
+                        <button type="submit" class="btn">Revoke</button>
+                    </form>
+                </center>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- <p>Generate key pair</p>
     <form action="/api/home/key-generate">
-        <button type="submit" class="btn btn-primary">Generate</button>
+        <button type="submit" class="btn">Generate</button>
     </form>
     <hr>
     <p>Get public key from key-server</p>
     <form action="/api/home/key-publish">
-        <button type="submit" class="btn btn-primary">Get Key</button>
+        <button type="submit" class="btn">Get Key</button>
     </form>
     <hr>
     <p>Revoke key pair</p>
     <form action="/api/home/key-revoke">
-        <button type="submit" class="btn btn-primary">Revoke</button>
+        <button type="submit" class="btn">Revoke</button>
     </form>
+     -->
+
     <hr>
     <h2>List of keys</h2>
     <table class="table">
@@ -55,20 +90,20 @@
         </thead>
         <tbody class="keypair-list-container">
             <% for(var i = 0; i < value.length; i++) { %>
-                <tr>
-                    
-                    <% if (value[i].public_key == 'REVOKED') { %>
-                    <td style="background-color:#ff7d7d" scope="col"><%= value[i].name %></td>
-                    <td style="background-color:#ff7d7d" scope="col"><%= value[i].email %></td>
-                    <td style="background-color:#ff7d7d" scope="col"><%= value[i].date %></td>
-                    <td style="background-color:#ff7d7d" scope="col"><b>REVOKED<b></td>
-                    <%} else { %>
-                    <td scope="col"><%= value[i].name %></td>
-                    <td scope="col"><%= value[i].email %></td>
-                    <td scope="col"><%= value[i].date %></td>
-                    <td scope="col">SAFE</td>
-                    <% } %>
-                </tr>
+            <tr>
+
+                <% if (value[i].public_key == 'REVOKED') { %>
+                <td style="background-color:#ff7d7d" scope="col"><%= value[i].name %></td>
+                <td style="background-color:#ff7d7d" scope="col"><%= value[i].email %></td>
+                <td style="background-color:#ff7d7d" scope="col"><%= value[i].date %></td>
+                <td style="background-color:#ff7d7d" scope="col"><b>REVOKED<b></td>
+                <%} else { %>
+                <td scope="col"><%= value[i].name %></td>
+                <td scope="col"><%= value[i].email %></td>
+                <td scope="col"><%= value[i].date %></td>
+                <td scope="col">SAFE</td>
+                <% } %>
+            </tr>
             <% } %>
         </tbody>
     </table>
