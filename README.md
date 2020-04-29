@@ -81,7 +81,10 @@ Follow the following steps to use the app properly :
 
 Following are two screen shots of our application. For indepth explanation and more screen shots see our project report.
 
+#### Home Page  
 ![Home Page](public/images/readme-homepage.png)
+
+#### Key Management
 ![Key Management](public/images/readme-key-mgmt.png)
 
 ### Report
