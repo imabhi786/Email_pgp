@@ -39,7 +39,9 @@
                 <center>
                     <p>Generate key pair</p>
                     <form action="/api/home/key-generate">
-                        <button type="submit" class="btn">Generate</button>
+                        <button type="submit" class="btn">
+                            <img src="/images/gen-key.png" alt="" width="140px" style="padding:10px"><br>
+                            Generate</button>
                     </form>
                 </center>
             </div>
@@ -47,7 +49,9 @@
                 <center>
                     <p>Get public key from key-server</p>
                     <form action="/api/home/key-publish">
-                        <button type="submit" class="btn">Get Key</button>
+                        <button type="submit" class="btn">
+                            <img src="/images/get-key.png" alt="" width="140px" style="padding:10px"><br>
+                            Get Key</button>
                     </form>
                 </center>
             </div>
@@ -55,30 +59,14 @@
                 <center>
                     <p>Revoke key pair</p>
                     <form action="/api/home/key-revoke">
-                        <button type="submit" class="btn">Revoke</button>
+                        <button type="submit" class="btn">
+                            <img src="/images/trashbin.png" alt="" width="140px" style="padding:10px"><br>
+                            Revoke</button>
                     </form>
                 </center>
             </div>
         </div>
     </div>
-
-
-
-    <!-- <p>Generate key pair</p>
-    <form action="/api/home/key-generate">
-        <button type="submit" class="btn">Generate</button>
-    </form>
-    <hr>
-    <p>Get public key from key-server</p>
-    <form action="/api/home/key-publish">
-        <button type="submit" class="btn">Get Key</button>
-    </form>
-    <hr>
-    <p>Revoke key pair</p>
-    <form action="/api/home/key-revoke">
-        <button type="submit" class="btn">Revoke</button>
-    </form>
-     -->
 
     <hr>
     <h2>List of keys</h2>
