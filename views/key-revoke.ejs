@@ -29,7 +29,10 @@
     </div>
 </nav>
 <div class="main" id="main">
-    <h1 class="display-4">Revoke Key</h1>
+    <h1 class="display-4">Revoke Key</h1><br>
+    <div class="alert alert-danger animated bounceIn">
+        <p style="font-family: 'Montserrat', sans-serif; font-size:30px"><strong>WARNING!</strong> Once you revoke your keys, users will not be able to use them anymore for any sort of communication.</p>
+    </div><br>
     <form action="/api/auth/revoke_key" method="POST">
 
         <div class="form-group">

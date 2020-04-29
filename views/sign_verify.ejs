@@ -32,6 +32,13 @@
 <div class="main">
     <h1 class="display-4">Sign Verify</h1>
     <hr>
+
+    <br>
+    <div class="alert alert-info animated fadeIn">
+      <p align="center" style="font-family: 'Montserrat', sans-serif; font-size:23px"><strong>NOTE !</strong> Signature are verified to assure the reciver that the message has been sent by a legitimate sender. Digital signatures are verified using <b>SENDER's PUBLIC KEY</b>.</p>
+    </div>
+    <br>
+
     <form action="/api/auth/sign-verify" method="POST">
         <div class="form-group">
             <label for="email">Email address</label>
