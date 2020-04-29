@@ -36,7 +36,7 @@
 
     <br>
     <div class="alert alert-info animated fadeIn">
-      <p align="center" style="font-family: 'Montserrat', sans-serif; font-size:18px"><strong>NOTE !</strong> Key generation produces a unique key pair - <b>PUBLIC KEY and PRIVATE KEY</b>. Public key is accesible by all other users whereas only you can access your private key.</p>
+      <p align="center" style="font-family: 'Montserrat', sans-serif; font-size:18px"><strong>NOTE !</strong> Key generation produces a unique key pair - <b>PUBLIC KEY and PRIVATE KEY</b>. Public key is accessible by all other users whereas only you can access your private key.</p>
     </div>
     <br>
 
@@ -55,7 +55,6 @@
             <label for="algorithm">Algorithm</label>
             <select class="form-control" id="algorithm" name="algorithm">
                 <option>RSA</option>
-                <option>Other</option>
             </select>
         </div>
         <div class="form-group">
@@ -68,6 +67,7 @@
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+            <p style="color: red">**In case of forgotten passwords, kindly reach out to xyz@pgpexpress.com</p>
         </div>
         <button type="submit" class="btn ">Generate</button>
     </form>
