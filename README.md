@@ -89,7 +89,7 @@ Following are two screen shots of our application. For indepth explanation and m
 
 ### Report
 
-- TODO : Email PGP report link
+Kindly go through the [report](https://docs.google.com/document/d/1YM0rLIxYwGdQ7A92Bvfj1jhe5dBBfAWz6hi1djm_5XI/edit) for detailed description and indepth understanding of PGPExpress.
 
 ### Built With
 
